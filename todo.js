@@ -30,6 +30,7 @@ const todosLeft = document.createElement('h2')
 todosLeft.textContent = `You have ${left} todos left`
 document.querySelector('body').appendChild(todosLeft)
 
-document.querySelector('button').addEventListener('click', function() {
+document.querySelector('#btn').addEventListener('click', function() {
   console.log(`I'm adding a new todo`)
 })
+

@@ -15,25 +15,36 @@ const todos = [{
   completed: true
 }]
 
-let left = 0
+const filters = {
+  searchText: ''
+}
 
-todos.forEach(function(todo) {
-  const p = document.createElement('p')
-  p.textContent = todo.text
-  document.querySelector('body').appendChild(p)
-  if(todo.completed === false) {
-    left++;
-  }
-})
+const renderTodos = function(todos, filters) {
+  const filteredTodos = todos.filter(function(todo) {
+    return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+  })
 
-const todosLeft = document.createElement('h2')
-todosLeft.textContent = `You have ${left} todos left`
-document.querySelector('body').appendChild(todosLeft)
+  const left =  filteredTodos.filter(function(todo) {
+      return !todo.completed
+  })
 
-document.querySelector('#btn').addEventListener('click', function() {
-  console.log(`I'm adding a new todo`)
-})
+  document.querySelector('#todos').innerHTML = ''
+
+  const todosLeft = document.createElement('h2')
+  todosLeft.textContent = `You have ${left.length} todos left`
+  document.querySelector('#todos').appendChild(todosLeft);
+
+  filteredTodos.forEach(function(todo) {
+    const todoEl = document.createElement('p')
+    todoEl.textContent = todo.text
+    document.querySelector('#todos').appendChild(todoEl)
+  })
+  
+}
+
+renderTodos(todos, filters)
 
 document.querySelector('#add-todo').addEventListener('input', function(e) {
-  console.log(e.target.value)
+  filters.searchText = e.target.value
+  renderTodos(todos, filters)
 })

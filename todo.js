@@ -19,32 +19,41 @@ const filters = {
   searchText: ''
 }
 
-const renderTodos = function(todos, filters) {
-  const filteredTodos = todos.filter(function(todo) {
-    return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+const renderTodos = function (todos, filters) {
+  const filteredTodos = todos.filter(function (todo) {
+      return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
   })
 
-  const left =  filteredTodos.filter(function(todo) {
+  const incompleteTodos = filteredTodos.filter(function (todo) {
       return !todo.completed
   })
 
   document.querySelector('#todos').innerHTML = ''
 
-  const todosLeft = document.createElement('h2')
-  todosLeft.textContent = `You have ${left.length} todos left`
-  document.querySelector('#todos').appendChild(todosLeft);
+  const summary = document.createElement('h2')
+  summary.textContent = `You have ${incompleteTodos.length} todos left`
+  document.querySelector('#todos').appendChild(summary)
 
-  filteredTodos.forEach(function(todo) {
-    const todoEl = document.createElement('p')
-    todoEl.textContent = todo.text
-    document.querySelector('#todos').appendChild(todoEl)
+  filteredTodos.forEach(function (todo) {
+      const p = document.createElement('p')
+      p.textContent = todo.text
+      document.querySelector('#todos').appendChild(p)
   })
-  
 }
 
 renderTodos(todos, filters)
 
-document.querySelector('#add-todo').addEventListener('input', function(e) {
+document.querySelector('#search-text').addEventListener('input', function (e) {
   filters.searchText = e.target.value
   renderTodos(todos, filters)
+})
+
+document.querySelector('#new-todo').addEventListener('submit', function(e) {
+  e.preventDefault()
+  todos.push({
+    text: e.target.elements.text.value,
+    completed: false
+  })
+  renderTodos(todos, filters)
+  e.target.elements.text.value = ''
 })

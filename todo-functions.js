@@ -37,9 +37,21 @@ const renderTodos = function (todos, filters) {
 
 // Get the DOM elements for an individual note
 const generateTodoDOM = function (todo) {
-  const p = document.createElement('p')
-  p.textContent = todo.text
-  return p
+  const todoEl = document.createElement('div')
+  
+  const checkbox = document.createElement('input')
+  checkbox.setAttribute('type', 'checkbox')
+  todoEl.appendChild(checkbox)
+
+  const textEl = document.createElement('span')
+  textEl.textContent = todo.text
+  todoEl.appendChild(textEl)
+
+  const button = document.createElement('button')
+  button.textContent = 'x'
+  todoEl.appendChild(button)
+
+  return todoEl
 }
 
 // Get the DOM elements for list summary
